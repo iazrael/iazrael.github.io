@@ -1,2 +1,0 @@
-# iazrael.github.io
-sties

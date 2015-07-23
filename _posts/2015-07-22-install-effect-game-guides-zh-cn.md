@@ -1,5 +1,8 @@
-# 肿么安装Effect Game
-
+---
+layout: post
+title:  "肿么安装Effect Game"
+date:   2015-07-22 15:52:34
+categories: docs
 ---
 
 Effect Game的安装还是很麻烦的, 原作者用的时代比较久远, 有很多软件包在新的linux系统上都可能有兼容问题, 这里做个安装记录方便后人查阅.
