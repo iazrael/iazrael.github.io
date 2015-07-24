@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "肿么安装Effect Game"
+title:  "Win7 的一些坑"
 date:   2015-07-24 17:29:34
 categories: docs
 ---
