@@ -17,7 +17,7 @@ Effect Game的需要运行在linux系统里, 理论上任何linux发行版都可
 
 各个发行版虽然内核一样, 但是各种软件包可能不一样, 名字也可能不一样, 包管理工具也不一样, 所以环境这里, 还是建议用 `fedora 21`, 而且不能用最新版, 最新版的fedora把 yum 给替换成了 dnf, 还是很多问题.
 
-这里的安装步骤是基本按照这个E文文档的, [https://github.com/jhuckaby/Effect-Games/wiki/Installation-Guide](), 启用能用yum安装的软件包都直接用yum了.
+这里的安装步骤是基本按照这个E文文档的, [https://github.com/jhuckaby/Effect-Games/wiki/Installation-Guide](https://github.com/jhuckaby/Effect-Games/wiki/Installation-Guide), 启用能用yum安装的软件包都直接用yum了.
 
 ## 安装各种系统依赖包
 
@@ -25,7 +25,7 @@ Effect Game的需要运行在linux系统里, 理论上任何linux发行版都可
 
 如果是第一次用yum, 先更新下yum的版本库 `yum repolist` 
 
-批量安装, 安装完成后再敲入整个命令确认是否有安装失败的(已经安装了的不会重复安装)
+批量安装, **安装完成后再敲入整个命令确认是否有安装失败的**(已经安装了的不会重复安装)
 
     yum install zlib-devel libxml2-devel libgpg-error-devel libgcrypt-devel libxslt-devel expat-devel db4-devel e2fsprogs-devel krb5-devel openssl-devel aspell-devel rpm-build gcc screen sendmail "gcc-c++" bzip2-devel freetype-devel libpng-devel libtiff-devel libjpeg libjpeg-devel libstdc++-devel curl curl-devel libidn-devel krb5-devel e2fsprogs-devel libgcrypt-devel libgpg-error-devel
 
@@ -34,6 +34,7 @@ Effect Game的需要运行在linux系统里, 理论上任何linux发行版都可
 这里就直接按照作者的目录来设置, 大部分东东都放到这里, 避免各种引用要修改	
 
 	mkdir /effect
+	mkdir -p /effect/perl/bin/
 
 ## 安装 perl 和 cpan
 
@@ -48,11 +49,25 @@ Effect Game的需要运行在linux系统里, 理论上任何linux发行版都可
 ## 安装各种 perl 模块
 第一次使用cpan时, 直接敲入 `cpan` 运行一次, 按提示使用自动配置
 
-批量安装各种模块, 安装完成后再敲入整个命令确认是否有安装失败的(已经安装了的不会重复安装)
+为了避免安装时可能会遇到的下面这个提示, 烦它的话可以先装一下 `YAML`.
+
+    >> 'YAML' not installed, will not store persistent state
+	
+	cpan YAML
+
+然后批量安装各种模块, **安装完成后再敲入整个命令确认是否有安装失败的**(已经安装了的不会重复安装)
 
     cpan LWP::UserAgent Archive::Zip Archive::Tar Class::Loader Digest::SHA Digest::SHA1 Math::Pari Devel::Symdump Module::Build MIME::Lite Test::Simple Text::Wrap CGI Devel::CoreStack Cwd IO::Socket::INET Test::Harness Time::HiRes Unicode::String Date::Parse MIME::Parser Crypt::SSLeay ExtUtils::XSBuilder IO::Socket::SSL File::lockf IPC::ShareLite Syntax::Highlight::Engine::Kate Text::Aspell Net::Twitter::Lite HTTP::Daemon File::Flock
 
-这个需要等很久很久, 下载很久很久.
+这个需要等很久很久, 比很久很久还要久.
+
+`Text::Aspell` 很容易安装失败, 按如下步骤重新安装
+
+	yum install aspell aspell-en
+	
+	cpan Text::Aspell
+
+
 
 ## 安装图片服务 ImageMagick
 ImageMagic不要用yum安装, 编译时需要指定很多环境变量, 直接下载下载自己编译.
@@ -62,7 +77,7 @@ ImageMagic不要用yum安装, 编译时需要指定很多环境变量, 直接下
 
     yum install libjpeg-devel libpng-devel
 
-作者用的ImageMagick是6.5版本, 可能会编译失败, 这里下载最新版(目前是6.9).
+作者用的ImageMagick是6.5版本, 可能会编译失败, 这里下载**最新版**(目前是6.9).
 
 
     wget "http://www.imagemagick.org/download/ImageMagick.tar.gz"
@@ -92,7 +107,7 @@ ImageMagic不要用yum安装, 编译时需要指定很多环境变量, 直接下
 	perl -MImage::Magick -e ';'
 
 
-没有出错就安装OK
+没有出错就安装OK, 注意, 这里是没有什么显示
 
 创建个软链
 
@@ -105,7 +120,7 @@ ImageMagic不要用yum安装, 编译时需要指定很多环境变量, 直接下
 
 	wget "http://www.effectgames.com/install/mpg123-1.10.0.tar.bz2"
     tar jxf mpg123-1.10.0.tar.bz2
-    cd mpg123-1.10.0
+    cd mpg123-*
     ./configure
     make
     make install
@@ -116,8 +131,7 @@ ImageMagic不要用yum安装, 编译时需要指定很多环境变量, 直接下
     
 检查下面文件在不在, 有就安装正确了
     
-    /usr/local/bin/mpg123
-    /usr/bin/oggenc
+    ls /usr/local/bin/mpg123 /usr/bin/oggenc
     
 ## 安装 Apache
 
@@ -129,7 +143,7 @@ Apache也有很多安装选项, 自己下载来编译
 
 	wget "http://www.effectgames.com/install/httpd-2.2.14.tar.bz2"
     tar jxf httpd-2.2.14.tar.bz2
-    cd httpd-2.2.14
+    cd httpd-*
 
     ./configure --prefix=/effect/apache --with-mpm=prefork --with-ssl=openssl --with-perl=perl --enable-so --enable-expires --enable-headers --enable-mime-magic --enable-rewrite --enable-ssl --enable-mods-shared="all authn_file authn_default authz_host authz_groupfile authz_user authz_default auth_basic include filter log_config env setenvif mime status autoindex asis cgi negotiation dir actions userdir alias expires headers ssl rewrite"
 	
@@ -138,21 +152,34 @@ Apache也有很多安装选项, 自己下载来编译
 
 之后Apache会安装到 `/effect/apache`
 
-安装 mod_perl 模块
+安装 mod_perl 模块, 有些系统会缺少 perl 的一些依赖, 先用 yum 安装依赖, 然后安装最新版的 mod_perl ( 目前是2.0.9 )
 
     yum install perl-ExtUtils-Embed
     
+    wget "http://mirror.bit.edu.cn/apache/perl/mod_perl-2.0.9.tar.gz"
+    tar zxf mod_perl-*.tar.gz
+    cd mod_perl-*
+    perl Makefile.PL MP_AP_PREFIX=/effect/apache
+    make
+    make install
+
+在执行`perl Makefile.PL MP_AP_PREFIX=/effect/apache` 时可能会报错
+
+    [  error] '/effect/apache/bin/apxs -q NOTEST_CPPFLAGS' failed:
+	[  error] Use of assignment to $[ is deprecated at /effect/apache/bin/apxs line 86.
+
+问题原因是新版本的perl里面, `[` 不能用于变量名了, 修改 /effect/apache/bin/apxs 源码, 把`$[` 替换成 `$a`(vi 中可以用 `%s/$\[/\$a/g` 命令全局替换), 保存并重新执行 `perl Makefile.PL MP_AP_PREFIX=/effect/apache`
+
 增加www用户组和用户
 
     /usr/sbin/groupadd www
     /usr/sbin/useradd -m -g www www
     
-替换配置文件, 只用用作者的配置
+替换配置文件, 直接用作者的配置
 
-	wget http://www.effectgames.com/install/httpd.conf
+	wget "http://www.effectgames.com/install/httpd.conf"
 	mv /effect/apache/conf/httpd.conf /effect/apache/conf/httpd.conf.bak
 	mv httpd.conf /effect/apache/conf/
-	
 
 ## 配置项目
 
@@ -161,10 +188,10 @@ Apache也有很多安装选项, 自己下载来编译
     wget "https://github.com/jhuckaby/Effect-Games/tarball/master"
     tar zxf jhuckaby-Effect-Games-*.tar.gz
     rm jhuckaby-Effect-Games-*.tar.gz
-    mv jhuckaby-Effect-Games-* /effect
+    mv jhuckaby-Effect-Games-*/* /effect
     ln -s /effect/htdocs /effect/apache/htdocs/effect
     
-做一些必要配置, 具体项直接参照 [https://github.com/jhuckaby/Effect-Games/wiki/Installation-Guide](安装文档)
+做一些必要配置如域名等, 具体项直接参照 [安装文档](https://github.com/jhuckaby/Effect-Games/wiki/Installation-Guide)
 
 Effect Game的主要配置文件在 `/effect/conf/Effect.xml`, 基本上都不需要修改
 
