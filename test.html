@@ -133,7 +133,7 @@
     var img = document.getElementById('img');
     function log(msg){
         var args = Array.prototype.slice.call(arguments);
-        textarea.value += formatDate(new Date(), 'YYYY-MM-DD hh:mm:ss') + '\n' + args.join(' ,') + '\n==========\n';
+        textarea.value += formatDate(new Date(), 'YYYY-MM-DD hh:mm:ss') + '\n' + JSON.stringify(args) + '\n==========\n';
         textarea.scrollTop = textarea.scrollHeight;
     }
     var checkAPICache = {};
