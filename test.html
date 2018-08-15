@@ -131,7 +131,7 @@
     var container = document.getElementById('container');
     var textarea = document.getElementById('textarea');
     var img = document.getElementById('img');
-    function log(msg){
+    window.log = function(msg){
         var args = Array.prototype.slice.call(arguments);
         textarea.value += formatDate(new Date(), 'YYYY-MM-DD hh:mm:ss') + '\n' + JSON.stringify(args) + '\n==========\n';
         textarea.scrollTop = textarea.scrollHeight;
