@@ -1,0 +1,16 @@
+{
+  "inference": [
+    {
+      "tflite": {
+        "threads": 4,
+        "backends": ["cpu", "opengl"],
+        "biz": ["face","segment"]
+      },
+      "mnn": {
+        "threads": 4,
+        "backends": ["cpu", "opengl", "vulkan"],
+        "biz": ["face","segment"]
+      }
+    }
+  ]
+}
